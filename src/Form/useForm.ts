@@ -12,15 +12,16 @@ const useForm = ({ onSubmit, formState }: IuseFrom): IUserFormReturn => {
     const getInputProps = <T>({ name, onChange }: IinputProps<T>) => {
         return {
             name: name,
-            onChange: (event: onChange) => {
-                const changeValue = onChange ? onChange() : event.target.value;
+            onChange: (event: onChange<T>) => {
+                if(!!event.target ){}
+                const changeValue = onChange ? onChange(event) : event.target.value;
+                console.log(changeValue)
                 setState({
                     ...state,
                     [name]: changeValue,
                 });
             },
             value: state[name],
-            
         };
     };
 
