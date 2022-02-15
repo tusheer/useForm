@@ -3,7 +3,7 @@ import { From, useForm } from './Form';
 function App() {
     const { getInputProps, handleSubmit } = useForm({
         onSubmit: () => console.log('Tusher'),
-        data: {
+        formState: {
             name: 'Tusher',
             age: {
                 value: 'Tusher',
