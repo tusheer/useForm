@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { Validation } from '../Validation';
 import { IUserFormReturn, IuseFrom, IinputProps, Erros } from './types';
 
 const useForm = <P>({ onSubmit, formState }: IuseFrom<P>): IUserFormReturn<P> => {
@@ -10,7 +11,11 @@ const useForm = <P>({ onSubmit, formState }: IuseFrom<P>): IUserFormReturn<P> =>
         onSubmit();
     };
 
-     
+    const validation = useRef(new Validation([]))
+
+    validation.current.isRequire().isLength({min:4})
+    validation.current.isRequire().isLength({min:4})
+    console.log(validation)
 
     const getInputProps = <T>({ name, onChange, validate }: IinputProps<T, P>) => {
         return {
