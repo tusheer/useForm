@@ -42,7 +42,6 @@ function App() {
                                     id='email-address'
                                     {...getInputProps<string>({
                                         name: 'email',
-                                        onChange: (event) => event.toUpperCase(),
                                         validate: validate
                                             .isRequire()
                                             .withMessage('New is required')
@@ -63,7 +62,6 @@ function App() {
                                 <input
                                     {...getInputProps<string>({
                                         name: 'password',
-                                        onChange: (event) => event.toUpperCase(),
                                         validate: validate
                                             .isRequire()
                                             .withMessage('New is required')

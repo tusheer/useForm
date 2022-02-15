@@ -3,11 +3,21 @@ import { IUserFormReturn, IuseFrom, IinputProps, Erros } from './types';
 
 const useForm = <P>({ onSubmit, formState }: IuseFrom<P>): IUserFormReturn<P> => {
     const [state, setState] = useState<P>(formState);
-    const [errors, setErrors] = useState<Erros<P> | {}>({});
+    const [errors, setErrors] = useState<Erros<P>>({});
+    
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         onSubmit();
     };
+
+    // const create = (formState : P)=>{
+    //     return Object.keys(formState).reduce((prev   , current : string)=>{
+    //         return {
+    //             ...prev,
+
+    //         }
+    //     },{})   
+    // }
 
     const getInputProps = <T>({ name, onChange, validate }: IinputProps<T, P>) => {
         return {
@@ -20,7 +30,6 @@ const useForm = <P>({ onSubmit, formState }: IuseFrom<P>): IUserFormReturn<P> =>
                     [name]: changeValue,
                 },);
                 const getErros = validate?.get(changeValue);
-                console.log(getErros)
                 if (getErros?.error) {
                     setErrors({
                         ...errors,

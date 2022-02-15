@@ -7,14 +7,16 @@ export interface IEvent<T> {
     };
 }
 
-export interface Iirrors {
+export type Iirrors = {
     error: boolean;
     message: string[];
-}
-
-export type Erros<P> = {
-    [k in keyof P]: Iirrors;
 };
+
+export type Erros<P> =
+    | {
+          [k in keyof P]: Iirrors;
+      }
+    | {};
 
 type mode = 'onChange' | 'onBlur' | 'onSubmit' | 'onTouched';
 
@@ -28,7 +30,7 @@ export interface IUserFormReturn<P> {
         onChange: (event: any) => void;
     };
     state: P;
-    errors: Erros<P> | {};
+    errors: Erros<P>;
 }
 
 export interface IuseFrom<P> {
