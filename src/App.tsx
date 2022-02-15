@@ -1,21 +1,14 @@
 import { From, useForm } from './Form';
 import validate from './Validation';
 function App() {
-    const { getInputProps, handleSubmit, state } = useForm<{
-        name: string;
-        age: string;
-        new: {
-            name: string;
-        };
+    const { getInputProps, handleSubmit, errors } = useForm<{
+        email: string;
+        password: string;
     }>({
         onSubmit: () => console.log('Tusher'),
         formState: {
-            name: 'name',
-            age: 'village',
-
-            new: {
-                name: 'Something',
-            },
+            email: '',
+            password: '',
         },
     });
 
@@ -38,7 +31,7 @@ function App() {
                             </a>
                         </p>
                     </div>
-                    <From className='mt-8 space-y-6' action='#' method='POST'>
+                    <From onSubmit={handleSubmit} className='mt-8 space-y-6' action='#' method='POST'>
                         <input type='hidden' name='remember' value='true' />
                         <div className='rounded-md shadow-sm -space-y-px'>
                             <div>
@@ -47,20 +40,36 @@ function App() {
                                 </label>
                                 <input
                                     id='email-address'
-                                    name='email'
+                                    {...getInputProps<string>({
+                                        name: 'email',
+                                        onChange: (event) => event.toUpperCase(),
+                                        validate: validate
+                                            .isRequire()
+                                            .withMessage('New is required')
+                                            .isLength({ min: 4, max: 10 })
+                                            .withMessage('Doesnot match length'),
+                                    })}
                                     type='email'
                                     required
                                     className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
                                     placeholder='Email address'
                                 />
+                                <div></div>
                             </div>
                             <div>
                                 <label htmlFor='password' className='sr-only'>
                                     Password
                                 </label>
                                 <input
-                                    id='password'
-                                    name='password'
+                                    {...getInputProps<string>({
+                                        name: 'password',
+                                        onChange: (event) => event.toUpperCase(),
+                                        validate: validate
+                                            .isRequire()
+                                            .withMessage('New is required')
+                                            .isLength({ min: 4, max: 10 })
+                                            .withMessage('Doesnot match length'),
+                                    })}
                                     type='password'
                                     required
                                     className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
@@ -117,37 +126,8 @@ function App() {
                     </From>
                 </div>
             </div>
-            <From onSubmit={handleSubmit}>
-                <input
-                    {...getInputProps<string>({
-                        name: 'name',
-                        onChange: (event) => event.toUpperCase(),
-                        validate: validate
-                            .isRequire()
-                            .withMessage('New is required')
-                            .isLength({ min: 4, max: 10 })
-                            .withMessage('Doesnot match length'),
-                    })}
-                />
-                <Input
-                    {...getInputProps<{ name: string }>({
-                        name: 'new',
-                        onChange: (event) => event,
-                        validate: validate
-                            .isRequire()
-                            .withMessage('New is required')
-                            .isLength({ min: 4 })
-                            .withMessage('Doesnot match length')
-                            .find<{ name: string }>((value) => value.name),
-                    })}
-                />
-            </From>
         </div>
     );
 }
-
-const Input = ({ name, onChange, value }: any) => {
-    return <input name={name} onChange={(event: any) => onChange({ name: event?.target.value })} value={value.name} />;
-};
 
 export default App;
