@@ -12,11 +12,9 @@ export type Iirrors = {
     message: string[];
 };
 
-export type Erros<P> =
-    | {
-          [k in keyof P]: Iirrors;
-      }
-    | {};
+export type Erros<P> = {
+    [k in keyof P]?: Iirrors;
+};
 
 type mode = 'onChange' | 'onBlur' | 'onSubmit' | 'onTouched';
 
