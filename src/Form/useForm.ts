@@ -1,27 +1,33 @@
 import { useState } from 'react';
-import { IUserFormReturn, IuseFrom } from './types';
+import { IUserFormReturn, IuseFrom, IinputProps, onChange } from './types';
 
 const useForm = ({ onSubmit, formState }: IuseFrom): IUserFormReturn => {
-    const [state, setState] = useState();
+    const [state, setState] = useState(formState);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         onSubmit();
     };
 
-    const getInputProps = ({ name }: { name: string }) => {
+    const getInputProps = <T>({ name, onChange }: IinputProps<T>) => {
         return {
-            error: false,
-            value: 'Tusher',
-            onChange: (event: React.FormEvent<HTMLInputElement>) => {
-                console.log(event);
+            name: name,
+            onChange: (event: onChange) => {
+                const changeValue = onChange ? onChange() : event.target.value;
+                setState({
+                    ...state,
+                    [name]: changeValue,
+                });
             },
+            value: state[name],
+            
         };
     };
 
     return {
         handleSubmit,
         getInputProps,
+        state,
     };
 };
 

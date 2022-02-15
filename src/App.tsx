@@ -4,21 +4,18 @@ function App() {
     const { getInputProps, handleSubmit } = useForm({
         onSubmit: () => console.log('Tusher'),
         formState: {
-            name: 'Tusher',
-            age: {
-                value: 'Tusher',
-                require: true,
-            },
-            peaple: 'ji',
+            name: 'name',
+            age: 'village',
+            village: 'age',
         },
     });
 
     return (
         <div className='App'>
             <From onSubmit={handleSubmit}>
-                <input {...getInputProps({ name: 'name' })} />
-                <input {...getInputProps({ name: 'age' })} />
-                <input {...getInputProps({ name: 'peaple' })} />
+                <input {...getInputProps<string>({ name: 'name' })} />
+                <input {...getInputProps<string>({ name: 'age' })} />
+                <input {...getInputProps<string>({ name: 'village' })} />
             </From>
         </div>
     );
