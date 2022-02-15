@@ -6,7 +6,7 @@ export class Validation {
     }
 
     isRequire = () => this.injectError(isRequire());
-    isLength = ({ min, max }: { min: number; max: number }) => this.injectError(length({ min, max }));
+    isLength = ({ min, max }: { min?: number; max?: number }) => this.injectError(length({ min, max }));
 
     private injectError = (funtion: Function) => {
         const errors: Function[] = [...this.errros, funtion];
@@ -19,10 +19,38 @@ export class Validation {
             const lastError = this.errros[errorlength - 1];
             lastError.prototype.message = message;
             this.errros[errorlength - 1] = lastError;
-            return this;
+            return new Validation(this.errros);
         } else {
             throw console.error('No validation rules apply');
         }
+    };
+
+    get = (value: unknown, digginValue?: Function) => {
+        const parseValue = digginValue ? digginValue(value) : value;
+        const resolve = this.errros.reduce(
+            (prevValue: { error: boolean; message: string[] }, current) => {
+                const _prevValue = { ...prevValue };
+                const message = current.prototype.message || '';
+                const func = current(parseValue);
+                if (func === false) {
+                    _prevValue.error = true;
+                    message && _prevValue.message.push(message);
+                }
+                return _prevValue;
+            },
+            {
+                error: false,
+                message: [],
+            }
+        );
+        return resolve;
+    };
+
+    find = <T>(callback: (value: T) => string) => {
+        return {
+            ...this,
+            get: (value: T) => this.get(value, callback),
+        };
     };
 }
 
@@ -32,12 +60,20 @@ const isRequire = (): Function => {
     };
 };
 
-const length = ({ max, min }: { max: number; min: number }): Function => {
+const length = ({ max, min }: { max?: number; min?: number }): Function => {
     return function (value: string) {
-        let error: boolean;
-        max && value.length > max ? (error = false) : (error = true);
-        min && value.length < min ? (error = false) : (error = true);
-        return error;
+        let check: boolean;
+        if (max && min) {
+            max >= value.length && min <= value.length ? (check = true) : (check = false);
+        } else if (max) {
+            max >= value.length ? (check = true) : (check = false);
+        } else if (min) {
+            min <= value.length ? (check = true) : (check = false);
+        } else {
+            check = true;
+        }
+
+        return check;
     };
 };
 

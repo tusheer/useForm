@@ -1,38 +1,44 @@
 import React from 'react';
 import { Validation } from '../Validation';
 
-export interface IformState {
-    [k: string]: any;
-}
-
 export interface IEvent<T> {
     target: {
         value: T;
     };
 }
 
+export interface Iirrors {
+    error: boolean;
+    message: string[];
+}
+
+export type Erros<P> = {
+    [k in keyof P]: Iirrors;
+};
+
 type mode = 'onChange' | 'onBlur' | 'onSubmit' | 'onTouched';
 
 export type onChange = React.ChangeEvent<HTMLInputElement | HTMLSelectElement>;
 
-export interface IUserFormReturn {
+export interface IUserFormReturn<P> {
     handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-    getInputProps: <T>(props: IinputProps<T>) => {
-        name: string;
-        value: T;
+    getInputProps: <T>(props: IinputProps<T, P>) => {
+        name: keyof P;
+        // value: T ;
         onChange: (event: any) => void;
     };
-    state: IformState;
+    state: P;
+    errors: Erros<P> | {};
 }
 
-export interface IuseFrom {
+export interface IuseFrom<P> {
     onSubmit: () => void;
-    formState: IformState;
+    formState: P;
     type?: mode;
 }
 
-export interface IinputProps<T> {
-    name: string;
+export interface IinputProps<T, P> {
+    name: keyof P;
     onChange?: (event: T) => T;
-    validate?:  Validation;
+    validate?: Validation;
 }
