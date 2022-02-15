@@ -9,7 +9,11 @@ const useForm = ({ onSubmit, formState }: IuseFrom): IUserFormReturn => {
         onSubmit();
     };
 
-    const getInputProps = <T>({ name, onChange }: IinputProps<T>) => {
+    const getInputProps = <T>({ name, onChange ,validate }: IinputProps<T>) => {
+
+        console.log(validate)
+
+
         return {
             name: name,
             onChange: (event: any) => {
@@ -20,6 +24,7 @@ const useForm = ({ onSubmit, formState }: IuseFrom): IUserFormReturn => {
                     [name]: changeValue,
                 });
             },
+
             value: state[name],
         };
     };

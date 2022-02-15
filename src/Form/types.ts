@@ -1,4 +1,5 @@
 import React from 'react';
+import { Validation } from '../Validation';
 
 export interface IformState {
     [k: string]: any;
@@ -33,4 +34,5 @@ export interface IuseFrom {
 export interface IinputProps<T> {
     name: string;
     onChange?: (event: T) => T;
+    validate?:  Validation;
 }

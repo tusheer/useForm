@@ -1,25 +1,24 @@
-class validation {
+export class Validation {
     private errros: Function[];
-    private errorlength: number;
-    constructor() {
-        this.errros = [];
-        this.errorlength = 0;
+
+    constructor(errors: Function[]) {
+        this.errros = errors;
     }
 
     isRequire = () => this.injectError(isRequire());
-    length = ({ min, max }: { min: number; max: number }) => this.injectError(length({ min, max }));
+    isLength = ({ min, max }: { min: number; max: number }) => this.injectError(length({ min, max }));
 
     private injectError = (funtion: Function) => {
-        this.errros.push(funtion);
-        this.errorlength++;
-        return this;
+        const errors: Function[] = [...this.errros, funtion];
+        return new Validation(errors);
     };
 
     withMessage = (message: string) => {
-        if (this.errorlength) {
-            const lastError = this.errros[this.errorlength];
+        const errorlength = this.errros.length;
+        if (errorlength) {
+            const lastError = this.errros[errorlength - 1];
             lastError.prototype.message = message;
-            this.errros[this.errorlength] = lastError;
+            this.errros[errorlength - 1] = lastError;
             return this;
         } else {
             throw console.error('No validation rules apply');
@@ -27,10 +26,14 @@ class validation {
     };
 }
 
-const isRequire = (): Function => (value: string) => !!value;
+const isRequire = (): Function => {
+    return function (value: string) {
+        return !!value;
+    };
+};
 
 const length = ({ max, min }: { max: number; min: number }): Function => {
-    return (value: string) => {
+    return function (value: string) {
         let error: boolean;
         max && value.length > max ? (error = false) : (error = true);
         min && value.length < min ? (error = false) : (error = true);
@@ -38,4 +41,5 @@ const length = ({ max, min }: { max: number; min: number }): Function => {
     };
 };
 
-export default new validation();
+const validation = new Validation([]);
+export default validation;
