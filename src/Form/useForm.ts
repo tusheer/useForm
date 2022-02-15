@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { IUserFormReturn, IuseFrom, IinputProps, onChange } from './types';
+import { IUserFormReturn, IuseFrom, IinputProps } from './types';
 
 const useForm = ({ onSubmit, formState }: IuseFrom): IUserFormReturn => {
     const [state, setState] = useState(formState);
@@ -12,10 +12,9 @@ const useForm = ({ onSubmit, formState }: IuseFrom): IUserFormReturn => {
     const getInputProps = <T>({ name, onChange }: IinputProps<T>) => {
         return {
             name: name,
-            onChange: (event: onChange<T>) => {
-                if(!!event.target ){}
-                const changeValue = onChange ? onChange(event) : event.target.value;
-                console.log(changeValue)
+            onChange: (event: any) => {
+                const value = event?.target?.value === undefined ? event : event.target.value;
+                const changeValue = onChange ? onChange(value) : value;
                 setState({
                     ...state,
                     [name]: changeValue,

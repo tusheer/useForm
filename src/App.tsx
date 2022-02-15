@@ -16,9 +16,8 @@ function App() {
     return (
         <div className='App'>
             <From onSubmit={handleSubmit}>
-                <input {...getInputProps<string>({ name: 'name', onChange: (event) => event.target.value.toUpperCase() })} />
-                <input {...getInputProps<string>({ name: 'age' })} />
-                <input {...getInputProps<string>({ name: 'village' })} />
+                <input {...getInputProps<string>({ name: 'name', onChange: (event) => event.toUpperCase() })} />
+                <input {...getInputProps<string>({ name: 'village'})} />
                 <Input {...getInputProps<{ name: string }>({ name: 'new', onChange: (event) => event })} />
             </From>
         </div>
