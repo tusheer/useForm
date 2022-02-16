@@ -10,9 +10,8 @@ export class Validation {
 
     private injectError = (funtion: Function) => {
         const errors: Function[] = [...this.errros, funtion];
-        this.errros = errors;
-        // return new Validation(errors);
-        return this
+        // this.errros = errors;
+        return new Validation(errors);
     };
 
     withMessage = (message: string) => {

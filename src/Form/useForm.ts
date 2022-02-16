@@ -5,19 +5,32 @@ import { IUserFormReturn, IuseFrom, IinputProps, Erros } from './types';
 const useForm = <P>({ onSubmit, formState }: IuseFrom<P>): IUserFormReturn<P> => {
     const [state, setState] = useState<P>(formState);
     const [errors, setErrors] = useState<Erros<P>>({});
+    const validationRef = useRef<{ [k in keyof P]?: Validation }>({});
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        // const errorResolve = Object.keys(validationRef.current).reduce((prev : Erros<P>, current : string)=>{
+        //     const _prev = { ...prev};
+        //     _prev[current] = {name  :"Tusher"}
+        //     return prev
+        // },{})
+        
         onSubmit();
     };
 
-    const validation = useRef(new Validation([]))
 
-    validation.current.isRequire().isLength({min:4})
-    validation.current.isRequire().isLength({min:4})
-    console.log(validation)
+    
 
     const getInputProps = <T>({ name, onChange, validate }: IinputProps<T, P>) => {
+        const validationRules = () => {
+            if (validationRef.current && validate) {
+                if (!validationRef.current[name]) {
+                    validationRef.current[name] = validate;
+                }
+            }
+        };
+        validationRules();
+
         return {
             name: name,
             onChange: (event: any) => {
@@ -26,7 +39,7 @@ const useForm = <P>({ onSubmit, formState }: IuseFrom<P>): IUserFormReturn<P> =>
                 setState({
                     ...state,
                     [name]: changeValue,
-                },);
+                });
                 const getErros = validate?.get(changeValue);
                 if (getErros?.error) {
                     setErrors({
