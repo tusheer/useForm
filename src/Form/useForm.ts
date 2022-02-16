@@ -14,22 +14,19 @@ const useForm = <P>({ onSubmit, formState }: IuseFrom<P>): IUserFormReturn<P> =>
         //     _prev[current] = {name  :"Tusher"}
         //     return prev
         // },{})
-        
+
         onSubmit();
     };
 
-
-    
-
     const getInputProps = <T>({ name, onChange, validate }: IinputProps<T, P>) => {
-        const validationRules = () => {
+        const getValidateFuntions = () => {
             if (validationRef.current && validate) {
                 if (!validationRef.current[name]) {
                     validationRef.current[name] = validate;
                 }
             }
         };
-        validationRules();
+        getValidateFuntions();
 
         return {
             name: name,
