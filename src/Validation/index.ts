@@ -6,11 +6,15 @@ export class Validation {
     }
 
     isRequire = () => this.injectError(isRequire());
-    isLength = ({ min, max }: { min?: number; max?: number }) => this.injectError(length({ min, max }));
+
+    isLength = ({ min, max }: { min?: number; max?: number }) => this.injectError(isLength({ min, max }));
+
+    isValidEmail = () => this.injectError(isValidEmail());
+
+    custom = (customFunction: (value: any) => boolean) => this.injectError( function (value : any){ return customFunction(value)});
 
     private injectError = (funtion: Function) => {
         const errors: Function[] = [...this.errros, funtion];
-        // this.errros = errors;
         return new Validation(errors);
     };
 
@@ -47,7 +51,7 @@ export class Validation {
         return resolve;
     };
 
-    find = <T>(callback: (value: T) => string) => {
+    findKey = <T>(callback: (value: T) => string) => {
         return {
             ...this,
             get: (value: T) => this.get(value, callback),
@@ -61,7 +65,7 @@ const isRequire = (): Function => {
     };
 };
 
-const length = ({ max, min }: { max?: number; min?: number }): Function => {
+const isLength = ({ max, min }: { max?: number; min?: number }): Function => {
     return function (value: string) {
         let check: boolean;
         if (max && min) {
@@ -75,6 +79,13 @@ const length = ({ max, min }: { max?: number; min?: number }): Function => {
         }
 
         return check;
+    };
+};
+
+const isValidEmail = (): Function => {
+    return function (value: string) {
+        const re = /\S+@\S+\.\S+/;
+        return re.test(value);
     };
 };
 

@@ -44,17 +44,23 @@ function App() {
                                         name: 'email',
                                         validate: validate
                                             .isRequire()
-                                            .withMessage("Email is required")
-                                            
+                                            .withMessage('Email is required')
+                                            .isValidEmail()
+                                            .withMessage('Email is not valid'),
                                     })}
                                     type='email'
                                     required
-                                    className={`appearance-none rounded-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 border rounded-t-md focus:outline-none  focus:z-10 sm:text-sm  ${errors.email?.error ? "ocus:ring-red-500 focus:border-red-500 border-red-500" : "focus:ring-indigo-500 focus:border-indigo-500  border-gray-300"}`}
+                                    className={`appearance-none rounded-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 border rounded-t-md focus:outline-none  focus:z-10 sm:text-sm  ${
+                                        errors.email?.error
+                                            ? 'ocus:ring-red-500 focus:border-red-500 border-red-500'
+                                            : 'focus:ring-indigo-500 focus:border-indigo-500  border-gray-300'
+                                    }`}
+                                    autoComplete='off'
                                     placeholder='Email address'
                                 />
-                                <div className="text-sm mt-1 text-red-500">{errors.email?.message[0]}</div>
+                                <div className='text-sm mt-1 text-red-500'>{errors.email?.message[0]}</div>
                             </div>
-                            <div className="">
+                            <div className=''>
                                 <label htmlFor='password' className='sr-only'>
                                     Password
                                 </label>
@@ -63,14 +69,25 @@ function App() {
                                         name: 'password',
                                         validate: validate
                                             .isRequire()
-                                            .withMessage('Email is required')
-                                            
+                                            .withMessage('Password is required')
+                                            .isLength({ min: 6 })
+                                            .withMessage('Password min 6 Characters')
+                                            .isLength({ max: 12 })
+                                            .withMessage('Password max 12 Characters')
+                                            .custom((value) => value !== '123456')
+                                            .withMessage('Password 123456 not valid'),
                                     })}
                                     type='password'
                                     required
-                                    className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
+                                    className={`appearance-none rounded-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 border rounded-t-md focus:outline-none  focus:z-10 sm:text-sm  ${
+                                        errors.password?.error
+                                            ? 'ocus:ring-red-500 focus:border-red-500 border-red-500'
+                                            : 'focus:ring-indigo-500 focus:border-indigo-500  border-gray-300'
+                                    }`}
                                     placeholder='Password'
+                                    autoComplete='off'
                                 />
+                                <div className='text-sm mt-1 text-red-500'>{errors.password?.message[0]}</div>
                             </div>
                         </div>
 
@@ -110,9 +127,9 @@ function App() {
                                         aria-hidden='true'
                                     >
                                         <path
-                                            fill-rule='evenodd'
+                                            fillRule='evenodd'
                                             d='M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z'
-                                            clip-rule='evenodd'
+                                            clipRule='evenodd'
                                         />
                                     </svg>
                                 </span>
