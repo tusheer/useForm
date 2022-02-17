@@ -4,10 +4,12 @@ function App() {
     const { getInputProps, handleSubmit, errors } = useForm<{
         email: string;
         password: string;
+        name: string;
     }>({
         onSubmit: () => console.log('Tusher'),
         formState: {
             email: '',
+            name: '',
             password: '',
         },
     });
@@ -26,8 +28,7 @@ function App() {
                         <p className='mt-2 text-center text-sm text-gray-600'>
                             Or
                             <a href='/' className='font-medium text-indigo-600 hover:text-indigo-500'>
-                                {' '}
-                                start your 14-day free trial{' '}
+                                start your 14-day free trial
                             </a>
                         </p>
                     </div>
@@ -59,6 +60,31 @@ function App() {
                                     placeholder='Email address'
                                 />
                                 <div className='text-sm mt-1 text-red-500'>{errors.email?.message[0]}</div>
+                            </div>
+                            <div className=''>
+                                <label htmlFor='password' className='sr-only'>
+                                    Name
+                                </label>
+                                <input
+                                    {...getInputProps<string>({
+                                        name: 'name',
+                                        validate: validate
+                                            .isRequire()
+                                            .withMessage('Required')
+                                            .custom((value) => value !== 'tusher')
+                                            .withMessage('Tusher is not correct'),
+                                    })}
+                                    type='password'
+                                    required
+                                    className={`appearance-none rounded-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 border rounded-t-md focus:outline-none  focus:z-10 sm:text-sm  ${
+                                        errors.name?.error
+                                            ? 'ocus:ring-red-500 focus:border-red-500 border-red-500'
+                                            : 'focus:ring-indigo-500 focus:border-indigo-500  border-gray-300'
+                                    }`}
+                                    placeholder='name'
+                                    autoComplete='off'
+                                />
+                                <div className='text-sm mt-1 text-red-500'>{errors.name?.message[0]}</div>
                             </div>
                             <div className=''>
                                 <label htmlFor='password' className='sr-only'>
@@ -108,7 +134,7 @@ function App() {
                             <div className='text-sm'>
                                 <a href='/' className='font-medium text-indigo-600 hover:text-indigo-500'>
                                     {' '}
-                                    htmlForgot your password?{' '}
+                                    Forgot your password?{' '}
                                 </a>
                             </div>
                         </div>
