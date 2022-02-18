@@ -50,7 +50,6 @@ function App() {
                                             .withMessage('Email is not valid'),
                                     })}
                                     type='email'
-                                    required
                                     className={`appearance-none rounded-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 border rounded-t-md focus:outline-none  focus:z-10 sm:text-sm  ${
                                         errors.email?.error
                                             ? 'ocus:ring-red-500 focus:border-red-500 border-red-500'
@@ -75,7 +74,6 @@ function App() {
                                             .withMessage('Tusher is not correct'),
                                     })}
                                     type='password'
-                                    required
                                     className={`appearance-none rounded-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 border rounded-t-md focus:outline-none  focus:z-10 sm:text-sm  ${
                                         errors.name?.error
                                             ? 'ocus:ring-red-500 focus:border-red-500 border-red-500'

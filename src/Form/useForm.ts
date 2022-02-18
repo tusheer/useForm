@@ -9,13 +9,17 @@ const useForm = <P>({ onSubmit, formState }: IuseFrom<P>): IUserFormReturn<P> =>
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const errorResolve = Object.keys(validationRef.current).reduce((prev : Erros<P>, current : string)=>{
-            const _prev = { ...prev};
-            _prev[current] = {name  :"Tusher"}
-            return prev
-        },{})
-
-        onSubmit();
+        const errorResolve: (keyof P)[] = Object.keys(validationRef.current) as (keyof P)[];
+        const errors: Erros<P> = {};
+        if (errorResolve.length) {
+            for (let i = 0; i < errorResolve.length; i++) {
+                errors[errorResolve[i]] = validationRef.current[errorResolve[i]]?.get(state[errorResolve[i]]);
+            }
+        }
+        setErrors(errors);
+        if (!Object.keys(errors).length) {
+            onSubmit();
+        }
     };
 
     const getInputProps = <T>({ name, onChange, validate }: IinputProps<T, P>) => {
