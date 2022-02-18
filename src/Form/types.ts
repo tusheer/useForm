@@ -16,7 +16,6 @@ export type Erros<P> = {
     [k in keyof P]?: Iirrors;
 };
 
-type mode = 'onChange' | 'onBlur' | 'onSubmit' | 'onTouched';
 
 export type onChange = React.ChangeEvent<HTMLInputElement | HTMLSelectElement>;
 
@@ -33,7 +32,6 @@ export interface IUserFormReturn<P> {
 export interface IuseFrom<P> {
     onSubmit: () => void;
     formState: P;
-    type?: mode;
 }
 
 export interface IinputProps<T, P> {
