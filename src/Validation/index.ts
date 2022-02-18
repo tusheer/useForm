@@ -11,7 +11,10 @@ export class Validation {
 
     isValidEmail = () => this.injectError(isValidEmail());
 
-    custom = (customFunction: (value: any) => boolean) => this.injectError( function (value : any){ return customFunction(value)});
+    custom = (customFunction: (value: any) => boolean) =>
+        this.injectError(function (value: any) {
+            return customFunction(value);
+        });
 
     private injectError = (funtion: Function) => {
         const errors: Function[] = [...this.errros, funtion];
@@ -30,7 +33,7 @@ export class Validation {
         }
     };
 
-    get = (value: unknown, digginValue?: Function) => {
+    generateErrors = (value: unknown, digginValue?: Function) => {
         const parseValue = digginValue ? digginValue(value) : value;
         const resolve = this.errros.reduce(
             (prevValue: { error: boolean; message: string[] }, current) => {
@@ -54,7 +57,7 @@ export class Validation {
     findKey = <T>(callback: (value: T) => string) => {
         return {
             ...this,
-            get: (value: T) => this.get(value, callback),
+            get: (value: T) => this.generateErrors(value, callback),
         };
     };
 }
@@ -90,6 +93,5 @@ const isValidEmail = (): Function => {
 };
 
 const validation = new Validation([]);
-
 
 export default validation;
