@@ -62,6 +62,9 @@ export class Validation {
     };
 }
 
+//in return function we need to use regular function instead of arrow function
+//because in arrow function we can not inject prototype value in fucntion
+
 const isRequire = (): Function => {
     return function (value: string) {
         return !!value;
