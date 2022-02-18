@@ -24,7 +24,6 @@ export interface IUserFormReturn<P> {
     handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
     getInputProps: <T>(props: IinputProps<T, P>) => {
         name: keyof P;
-        // value: T ;
         onChange: (event: any) => void;
     };
     state: P;

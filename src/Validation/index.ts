@@ -90,4 +90,6 @@ const isValidEmail = (): Function => {
 };
 
 const validation = new Validation([]);
+
+
 export default validation;

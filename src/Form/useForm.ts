@@ -13,7 +13,11 @@ const useForm = <P>({ onSubmit, formState }: IuseFrom<P>): IUserFormReturn<P> =>
         const errors: Erros<P> = {};
         if (errorResolve.length) {
             for (let i = 0; i < errorResolve.length; i++) {
-                errors[errorResolve[i]] = validationRef.current[errorResolve[i]]?.get(state[errorResolve[i]]);
+                const name = errorResolve[i];
+                const validate = validationRef.current[name]?.get(state[name]);
+                if (validate?.error) {
+                    errors[name] = validate;
+                }
             }
         }
         setErrors(errors);

@@ -6,7 +6,7 @@ function App() {
         password: string;
         name: string;
     }>({
-        onSubmit: () => console.log('Tusher'),
+        onSubmit: () => console.log('errrs', errors),
         formState: {
             email: '',
             name: '',
