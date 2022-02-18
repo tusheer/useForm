@@ -9,11 +9,11 @@ const useForm = <P>({ onSubmit, formState }: IuseFrom<P>): IUserFormReturn<P> =>
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // const errorResolve = Object.keys(validationRef.current).reduce((prev : Erros<P>, current : string)=>{
-        //     const _prev = { ...prev};
-        //     _prev[current] = {name  :"Tusher"}
-        //     return prev
-        // },{})
+        const errorResolve = Object.keys(validationRef.current).reduce((prev : Erros<P>, current : string)=>{
+            const _prev = { ...prev};
+            _prev[current] = {name  :"Tusher"}
+            return prev
+        },{})
 
         onSubmit();
     };
