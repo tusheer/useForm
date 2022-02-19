@@ -27,7 +27,7 @@ const useForm = <P>({ onSubmit, formState }: IuseFrom<P>): IUserFormReturn<P> =>
         }
     };
 
-    const getInputProps = <T>({ name, onChange, validate }: IinputProps<T, P>) => {
+    const getInputProps = ({ name, onChange, validate }: IinputProps<P>) => {
         const getValidateFuntions = () => {
             if (validationRef.current && validate) {
                 if (!validationRef.current[name]) {

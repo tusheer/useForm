@@ -41,7 +41,7 @@ function App() {
                                 </label>
                                 <input
                                     id='email-address'
-                                    {...getInputProps<string>({
+                                    {...getInputProps({
                                         name: 'email',
                                         validate: validate
                                             .isRequire()
@@ -65,7 +65,7 @@ function App() {
                                     Name
                                 </label>
                                 <input
-                                    {...getInputProps<string>({
+                                    {...getInputProps({
                                         name: 'name',
                                         validate: validate
                                             .isRequire()
@@ -89,7 +89,7 @@ function App() {
                                     Password
                                 </label>
                                 <input
-                                    {...getInputProps<string>({
+                                    {...getInputProps({
                                         name: 'password',
                                         validate: validate
                                             .isRequire()
