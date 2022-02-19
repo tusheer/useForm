@@ -1,4 +1,4 @@
-import { From, useForm } from './Form';
+import { useForm } from './Form';
 import validate from './Validation';
 function App() {
     const { getInputProps, handleSubmit, errors } = useForm<{
@@ -32,7 +32,7 @@ function App() {
                             </a>
                         </p>
                     </div>
-                    <From onSubmit={handleSubmit} className='mt-8 space-y-6' action='#' method='POST'>
+                    <form onSubmit={handleSubmit} className='mt-8 space-y-6' action='#' method='POST'>
                         <input type='hidden' name='remember' value='true' />
                         <div className='rounded-md shadow-sm space-y-3'>
                             <div>
@@ -160,7 +160,7 @@ function App() {
                                 Sign in
                             </button>
                         </div>
-                    </From>
+                    </form>
                 </div>
             </div>
         </div>
