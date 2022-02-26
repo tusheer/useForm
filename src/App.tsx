@@ -43,7 +43,7 @@ function App() {
                                     id='email-address'
                                     {...getInputProps({
                                         name: 'email',
-                                        validate: validate
+                                        validate: validate()
                                             .isRequire()
                                             .withMessage('Email is required')
                                             .isValidEmail()
@@ -67,7 +67,7 @@ function App() {
                                 <input
                                     {...getInputProps({
                                         name: 'name',
-                                        validate: validate
+                                        validate: validate()
                                             .isRequire()
                                             .withMessage('Required')
                                             .custom((value) => value !== 'tusher')
@@ -91,7 +91,7 @@ function App() {
                                 <input
                                     {...getInputProps({
                                         name: 'password',
-                                        validate: validate
+                                        validate: validate()
                                             .isRequire()
                                             .withMessage('Password is required')
                                             .isLength({ min: 6 })
