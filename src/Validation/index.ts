@@ -95,6 +95,8 @@ const isValidEmail = (): Function => {
     };
 };
 
-const validation = new Validation([]);
+const validation = () => {
+    return new Validation([]);
+};
 
 export default validation;
