@@ -1,16 +1,18 @@
 import useForm, { validate } from './Form';
 
 function App() {
-    const { getInputProps, handleSubmit, errors } = useForm<{
+    const { getInputProps, handleSubmit, errors, state } = useForm<{
         email: string;
         password: string;
         name: string;
+        newPass: string;
     }>({
         onSubmit: () => console.log('errrs', errors),
         formState: {
             email: '',
             name: '',
             password: '',
+            newPass: '',
         },
     });
 
@@ -97,9 +99,7 @@ function App() {
                                             .isLength({ min: 6 })
                                             .withMessage('Password min 6 Characters')
                                             .isLength({ max: 12 })
-                                            .withMessage('Password max 12 Characters')
-                                            .custom((value) => value !== '123456')
-                                            .withMessage('Password 123456 not valid'),
+                                            .withMessage('Password max 12 Characters'),
                                     })}
                                     type='password'
                                     required
@@ -112,6 +112,38 @@ function App() {
                                     autoComplete='off'
                                 />
                                 <div className='text-sm mt-1 text-red-500'>{errors.password?.message[0]}</div>
+                            </div>
+                            <div className=''>
+                                <label htmlFor='password' className='sr-only'>
+                                    Password
+                                </label>
+                                <input
+                                    {...getInputProps({
+                                        name: 'newPass',
+                                        validate: validate
+                                            .isRequire()
+                                            .withMessage('Password is required')
+                                            .isLength({ min: 6 })
+                                            .withMessage('Password min 6 Characters')
+                                            .isLength({ max: 12 })
+                                            .withMessage('Password max 12 Characters')
+                                            .custom((value) => {
+                                                console.log({state});
+                                                return value === state.password;
+                                            })
+                                            .withMessage('Password 123456 not valid'),
+                                    })}
+                                    type='password'
+                                    required
+                                    className={`appearance-none rounded-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 border rounded-t-md focus:outline-none  focus:z-10 sm:text-sm  ${
+                                        errors.newPass?.error
+                                            ? 'ocus:ring-red-500 focus:border-red-500 border-red-500'
+                                            : 'focus:ring-indigo-500 focus:border-indigo-500  border-gray-300'
+                                    }`}
+                                    placeholder='Password'
+                                    autoComplete='off'
+                                />
+                                <div className='text-sm mt-1 text-red-500'>{errors.newPass?.message[0]}</div>
                             </div>
                         </div>
 

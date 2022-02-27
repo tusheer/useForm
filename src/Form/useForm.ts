@@ -2,7 +2,6 @@ import { useRef, useState } from 'react';
 import { Validate } from './validate';
 import { IUserFormReturn, IuseFrom, IinputProps, Erros } from './types';
 
-
 const useForm = <P>({ onSubmit, formState }: IuseFrom<P>): IUserFormReturn<P> => {
     const [state, setState] = useState<P>(formState);
     const [errors, setErrors] = useState<Erros<P>>({});
@@ -30,9 +29,7 @@ const useForm = <P>({ onSubmit, formState }: IuseFrom<P>): IUserFormReturn<P> =>
     const getInputProps = ({ name, onChange, validate }: IinputProps<P>) => {
         const getValidateFuntions = () => {
             if (validationRef.current && validate) {
-                if (!validationRef.current[name]) {
-                    validationRef.current[name] = validate;
-                }
+                validationRef.current[name] = validate;
             }
         };
         getValidateFuntions();
@@ -46,7 +43,7 @@ const useForm = <P>({ onSubmit, formState }: IuseFrom<P>): IUserFormReturn<P> =>
                     ...state,
                     [name]: changeValue,
                 });
-                const getErros =  validate?.generateErrors(changeValue);
+                const getErros = validate?.generateErrors(changeValue);
                 if (getErros?.error) {
                     setErrors({
                         ...errors,
