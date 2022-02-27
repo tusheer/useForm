@@ -1,5 +1,5 @@
 import React from 'react';
-import { Validation } from '../Validation';
+import { Validate } from './validate';
 
 export interface IEvent<T> {
     target: {
@@ -36,5 +36,5 @@ export interface IuseFrom<P> {
 export interface IinputProps<P> {
     name: keyof P;
     onChange?: (event: any) => any;
-    validate?: Validation;
+    validate?: Validate;
 }

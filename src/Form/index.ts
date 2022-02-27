@@ -1,3 +1,4 @@
 import useForm from './useForm';
-
-export { useForm };
+import validate from './validate';
+export { validate };
+export default useForm;

@@ -1,4 +1,4 @@
-export class Validation {
+export class Validate {
     private errros: Function[];
 
     constructor(errors: Function[]) {
@@ -18,7 +18,7 @@ export class Validation {
 
     private injectError = (funtion: Function) => {
         const errors: Function[] = [...this.errros, funtion];
-        return new Validation(errors);
+        return new Validate(errors);
     };
 
     withMessage = (message: string) => {
@@ -27,9 +27,9 @@ export class Validation {
             const lastError = this.errros[errorlength - 1];
             lastError.prototype.message = message;
             this.errros[errorlength - 1] = lastError;
-            return new Validation(this.errros);
+            return new Validate(this.errros);
         } else {
-            throw console.error('No validation rules apply');
+            throw console.error('No Validate rules apply');
         }
     };
 
@@ -95,8 +95,4 @@ const isValidEmail = (): Function => {
     };
 };
 
-const validation = () => {
-    return new Validation([]);
-};
-
-export default validation;
+export default new Validate([]);

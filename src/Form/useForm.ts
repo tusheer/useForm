@@ -1,12 +1,12 @@
 import { useRef, useState } from 'react';
-import { Validation } from '../Validation';
+import { Validate } from './validate';
 import { IUserFormReturn, IuseFrom, IinputProps, Erros } from './types';
 
 
 const useForm = <P>({ onSubmit, formState }: IuseFrom<P>): IUserFormReturn<P> => {
     const [state, setState] = useState<P>(formState);
     const [errors, setErrors] = useState<Erros<P>>({});
-    const validationRef = useRef<{ [k in keyof P]?: Validation }>({});
+    const validationRef = useRef<{ [k in keyof P]?: Validate }>({});
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
