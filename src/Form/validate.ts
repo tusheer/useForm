@@ -33,7 +33,7 @@ export class Validate {
         }
     };
 
-    generateErrors = (value: unknown, digginValue?: Function) => {
+    private generateErrors = (value: unknown, digginValue?: Function) => {
         const parseValue = digginValue ? digginValue(value) : value;
         const resolve = this.errros.reduce(
             (prevValue: { error: boolean; message: string[] }, current) => {
@@ -54,10 +54,14 @@ export class Validate {
         return resolve;
     };
 
+    getErrors = (value: any) => {
+        return this.generateErrors(value);
+    };
+
     findKey = <T>(callback: (value: T) => string) => {
         return {
             ...this,
-            get: (value: T) => this.generateErrors(value, callback),
+            getErrors: (value: T) => this.generateErrors(value, callback),
         };
     };
 }

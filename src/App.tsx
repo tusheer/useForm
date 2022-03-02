@@ -5,14 +5,18 @@ function App() {
         email: string;
         password: string;
         name: string;
-        newPass: string;
+        newPass: {
+            value: '';
+        };
     }>({
         onSubmit: () => console.log('errrs', errors),
         formState: {
             email: '',
             name: '',
             password: '',
-            newPass: '',
+            newPass: {
+                value: '',
+            },
         },
     });
 
@@ -93,6 +97,7 @@ function App() {
                                 <input
                                     {...getInputProps({
                                         name: 'password',
+
                                         validate: validate
                                             .isRequire()
                                             .withMessage('Password is required')
@@ -113,13 +118,15 @@ function App() {
                                 />
                                 <div className='text-sm mt-1 text-red-500'>{errors.password?.message[0]}</div>
                             </div>
+                            <div>New password</div>
                             <div className=''>
                                 <label htmlFor='password' className='sr-only'>
-                                    Password
+                                    New Password
                                 </label>
                                 <input
                                     {...getInputProps({
                                         name: 'newPass',
+                                        onChange: (value) => ({ value: value }),
                                         validate: validate
                                             .isRequire()
                                             .withMessage('Password is required')
@@ -127,12 +134,9 @@ function App() {
                                             .withMessage('Password min 6 Characters')
                                             .isLength({ max: 12 })
                                             .withMessage('Password max 12 Characters')
-                                            .custom((value) => {
-                                                console.log({state});
-                                                return value === state.password;
-                                            })
-                                            .withMessage('Password 123456 not valid'),
+                                            .findKey((value: any) => value.value),
                                     })}
+                                    value={state.newPass.value}
                                     type='password'
                                     required
                                     className={`appearance-none rounded-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 border rounded-t-md focus:outline-none  focus:z-10 sm:text-sm  ${

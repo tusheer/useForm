@@ -14,7 +14,7 @@ const useForm = <P>({ onSubmit, formState }: IuseFrom<P>): IUserFormReturn<P> =>
         if (errorResolve.length) {
             for (let i = 0; i < errorResolve.length; i++) {
                 const name = errorResolve[i];
-                const validate = validationRef.current[name]?.generateErrors(state[name]);
+                const validate = validationRef.current[name]?.getErrors(state[name]);
                 if (validate?.error) {
                     errors[name] = validate;
                 }
@@ -43,7 +43,7 @@ const useForm = <P>({ onSubmit, formState }: IuseFrom<P>): IUserFormReturn<P> =>
                     ...state,
                     [name]: changeValue,
                 });
-                const getErros = validate?.generateErrors(changeValue);
+                const getErros = validate?.getErrors(changeValue);
                 if (getErros?.error) {
                     setErrors({
                         ...errors,
