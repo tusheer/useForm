@@ -1,22 +1,17 @@
-import useForm, { validate } from './Form';
+import TextInput from './components/TextInput';
+import useForm, { validate } from './utils/useForm';
 
 function App() {
     const { getInputProps, handleSubmit, errors } = useForm<{
+        name: string;
         email: string;
         password: string;
-        name: string;
-        newPass: {
-            value: '';
-        };
     }>({
-        onSubmit: () => console.log('errrs', errors),
+        onSubmit: () => console.log('errors', errors),
         formState: {
-            email: '',
             name: '',
+            email: '',
             password: '',
-            newPass: {
-                value: '',
-            },
         },
     });
 
@@ -31,115 +26,52 @@ function App() {
                             alt='Workflow'
                         />
                         <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900'>Sign in to your account</h2>
-                        <p className='mt-2 text-center text-sm text-gray-600'>
-                            Or
-                            <a href='/' className='font-medium text-indigo-600 hover:text-indigo-500'>
-                                start your 14-day free trial
-                            </a>
-                        </p>
                     </div>
                     <form onSubmit={handleSubmit} className='mt-8 space-y-6' action='#' method='POST'>
                         <input type='hidden' name='remember' value='true' />
                         <div className='rounded-md shadow-sm space-y-3'>
-                            <div>
-                                <label htmlFor='email-address' className='sr-only'>
-                                    Email address
-                                </label>
-                                <input
-                                    id='email-address'
-                                    {...getInputProps({
-                                        name: 'email',
-                                        validate: validate
-                                            .isRequire()
-                                            .withMessage('Email is required')
-                                            .isValidEmail()
-                                            .withMessage('Email is not valid'),
-                                    })}
-                                    type='email'
-                                    className={`appearance-none rounded-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 border rounded-t-md focus:outline-none  focus:z-10 sm:text-sm  ${
-                                        errors.email?.error
-                                            ? 'ocus:ring-red-500 focus:border-red-500 border-red-500'
-                                            : 'focus:ring-indigo-500 focus:border-indigo-500  border-gray-300'
-                                    }`}
-                                    autoComplete='off'
-                                    placeholder='Email address'
-                                />
-                                <div className='text-sm mt-1 text-red-500'>{errors.email?.message[0]}</div>
-                            </div>
-                            <div className=''>
-                                <label htmlFor='password' className='sr-only'>
-                                    Name
-                                </label>
-                                <input
-                                    {...getInputProps({
-                                        name: 'name',
-                                        validate: validate
-                                            .isRequire()
-                                            .withMessage('Required')
-                                            .custom((value) => value !== 'tusher')
-                                            .withMessage('Tusher is not correct'),
-                                    })}
-                                    type='password'
-                                    className={`appearance-none rounded-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 border rounded-t-md focus:outline-none  focus:z-10 sm:text-sm  ${
-                                        errors.name?.error
-                                            ? 'ocus:ring-red-500 focus:border-red-500 border-red-500'
-                                            : 'focus:ring-indigo-500 focus:border-indigo-500  border-gray-300'
-                                    }`}
-                                    placeholder='name'
-                                    autoComplete='off'
-                                />
-                                <div className='text-sm mt-1 text-red-500'>{errors.name?.message[0]}</div>
-                            </div>
-                            <div className=''>
-                                <label htmlFor='password' className='sr-only'>
-                                    Password
-                                </label>
-                                <input
-                                    {...getInputProps({
-                                        name: 'password',
-
-                                        validate: validate
-                                            .isRequire()
-                                            .withMessage('Password is required')
-                                            .isLength({ min: 6 })
-                                            .withMessage('Password min 6 Characters')
-                                            .isLength({ max: 12 })
-                                            .withMessage('Password max 12 Characters'),
-                                    })}
-                                    type='password'
-                                    required
-                                    className={`appearance-none rounded-none relative block w-full px-3 py-2  placeholder-gray-500 text-gray-900 border rounded-t-md focus:outline-none  focus:z-10 sm:text-sm  ${
-                                        errors.password?.error
-                                            ? 'ocus:ring-red-500 focus:border-red-500 border-red-500'
-                                            : 'focus:ring-indigo-500 focus:border-indigo-500  border-gray-300'
-                                    }`}
-                                    placeholder='Password'
-                                    autoComplete='off'
-                                />
-                                <div className='text-sm mt-1 text-red-500'>{errors.password?.message[0]}</div>
-                            </div>
-                        </div>
-
-                        <div className='flex items-center justify-between'>
-                            <div className='flex items-center'>
-                                <input
-                                    id='remember-me'
-                                    name='remember-me'
-                                    type='checkbox'
-                                    className='h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded'
-                                />
-                                <label htmlFor='remember-me' className='ml-2 block text-sm text-gray-900'>
-                                    {' '}
-                                    Remember me{' '}
-                                </label>
-                            </div>
-
-                            <div className='text-sm'>
-                                <a href='/' className='font-medium text-indigo-600 hover:text-indigo-500'>
-                                    {' '}
-                                    Forgot your password?{' '}
-                                </a>
-                            </div>
+                            <TextInput
+                                label='Name'
+                                {...getInputProps({
+                                    name: 'name',
+                                    validate: validate.isRequire().withMessage('Name is required'),
+                                })}
+                                placeholder='name'
+                                error={errors.name?.error}
+                                errorText={errors.name?.message[0]}
+                            />
+                            <TextInput
+                                placeholder='Email'
+                                label='Email address'
+                                {...getInputProps({
+                                    name: 'email',
+                                    validate: validate
+                                        .isRequire()
+                                        .withMessage('Email is required')
+                                        .isValidEmail()
+                                        .withMessage('Email is not valid'),
+                                })}
+                                type='email'
+                                error={errors.email?.error}
+                                errorText={errors.email?.message[0]}
+                            />
+                            <TextInput
+                                placeholder='Password'
+                                label='Password'
+                                {...getInputProps({
+                                    name: 'password',
+                                    validate: validate
+                                        .isRequire()
+                                        .withMessage('Password is required')
+                                        .isLength({ min: 6 })
+                                        .withMessage('Password min 6 Characters')
+                                        .isLength({ max: 12 })
+                                        .withMessage('Password max 12 Characters'),
+                                })}
+                                type='password'
+                                error={errors.password?.error}
+                                errorText={errors.password?.message[0]}
+                            />
                         </div>
 
                         <div>
