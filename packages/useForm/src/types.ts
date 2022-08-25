@@ -8,12 +8,12 @@ export interface IEvent<T> {
 }
 
 export type Iirrors = {
-    error: boolean;
+    error: boolean;   
     message: string[];
 };
 
 export type Erros<P> = {
-    [k in keyof P]?: Iirrors;
+        [k in keyof P]?: Iirrors;
 };
 
 export type onChange = React.ChangeEvent<HTMLInputElement | HTMLSelectElement>;
